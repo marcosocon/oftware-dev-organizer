@@ -8,19 +8,19 @@ import moment from 'moment';
 
 const sampleData = {
 	tasks: [{
-		name: 'Do this change',
+		name: 'Fix Header',
 		projectId: 1,
 		priority: 0,
 		dueDate: true,
 		dueOn: moment().add('days', 1)
 	}, {
-		name: 'Do this change',
+		name: 'Create new login process',
 		projectId: 1,
 		priority: 1,
 		dueDate: false,
 		dueOn: null
 	}, {
-		name: 'Do this change',
+		name: 'Refactor Everything',
 		projectId: 3,
 		priority: 0,
 		dueDate: true,
