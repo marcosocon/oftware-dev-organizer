@@ -42,8 +42,7 @@ const Projects = () => {
 									</Card.Content>
 								</Card>
 							</Grid.Column>)
-						)
-						}
+						)}
 					</Grid.Row>
 				</Grid>
 				)

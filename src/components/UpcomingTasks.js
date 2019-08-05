@@ -1,18 +1,26 @@
 import React from 'react';
 import moment from 'moment';
-import { Table, Button, Modal, Header } from 'semantic-ui-react';
+import { Table, Button, Modal, Input, Radio } from 'semantic-ui-react';
 
 import {MyContext} from './../Context';
+import { throwStatement } from '@babel/types';
 
 class UpcomingTasks extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			addTaskModalShown: false
+			addTaskModalShown: false,
+			taskTitle: '',
+			taskDescription: '',
+			taskPriority: 'minor',
+
 		}
 
 		this.openAddTaskModal = this.openAddTaskModal.bind(this);
 		this.closeAddTaskModal = this.closeAddTaskModal.bind(this);
+		this.saveTask = this.saveTask.bind(this);
+		this.onRadioChange = this.onRadioChange.bind(this);
+
 	}
 
 	openAddTaskModal() {
@@ -23,10 +31,24 @@ class UpcomingTasks extends React.Component {
 		return this.setState({ addTaskModalShown: false });
 	}
 
+	onRadioChange(e, radio) {
+		return this.setState({taskPriority: radio.value});
+	}
+	
+	saveTask() {
+		this.context.state.addTask({
+			name: this.state.taskTitle,
+			priority: this.state.taskPriority
+		})
+		this.closeAddTaskModal();
+		return this.setState({taskTitle: ''});
+	}
+
 	render() {
 		return (
 			<MyContext.Consumer>
 				{(context) => {
+					this.context = context;
 					const { tasks } = context.state;
 					return (
 						<div>
@@ -57,15 +79,40 @@ class UpcomingTasks extends React.Component {
 								size="small">
 								<Modal.Header>Add a Task</Modal.Header>
 								<Modal.Content>
-									<Modal.Description>
-										<Header>Default Profile Image</Header>
-										<p>We've found the following gravatar image associated with your e-mail address.</p>
-										<p>Is it okay to use this photo?</p>
-									</Modal.Description>
+									<Input placeholder='Task Title' onChange={(e) => this.setState({taskTitle: e.target.value})} value={this.state.taskTitle} />
+									<Input placeholder='Task Description' onChange={(e) => this.setState({taskDescription: e.target.value})} value={this.state.taskDescription}/>
+									<Radio
+										label='Major'
+										value='major'
+										onChange={this.onRadioChange}
+										checked={this.state.taskPriority === 'major'}
+									/>
+									<Radio
+										label='Normal'
+										value='normal'
+										onChange={this.onRadioChange}
+										checked={this.state.taskPriority === 'normal'}
+									/>
+									<Radio
+										label='Minor'
+										value='minor'
+										onChange={this.onRadioChange}
+										checked={this.state.taskPriority === 'minor'}
+									/>
+
 								</Modal.Content>
 								<Modal.Actions>
-									<Button negative onClick={this.closeAddTaskModal}>Close</Button>
-									<Button positive icon="checkmark" labelPosition='left' content='Save' />
+									<Button
+										negative
+										onClick={this.closeAddTaskModal}>
+											Close
+									</Button>
+									<Button
+										positive
+										icon="checkmark"
+										labelPosition='left'
+										content='Save'
+										onClick={this.saveTask}/>
 								</Modal.Actions>
 							</Modal>
 						</div>

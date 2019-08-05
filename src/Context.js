@@ -5,6 +5,9 @@ const MyContext = React.createContext();
 
 class MyProvider extends React.Component {
 	state = {
+		addTask: (task) => {
+			this.setState({tasks: [...this.state.tasks, task]})
+		},
 		tasks: [{
 			name: 'Fix Header',
 			projectId: 1,
