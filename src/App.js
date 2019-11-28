@@ -12,6 +12,7 @@ const App = () => {
 			<div className="App">
 				<header className="App-header">
 					<Container>
+						<h3>Upcoming Tasks</h3>
 						<UpcomingTasks />
 						<h3>Projects</h3>
 						<Projects />

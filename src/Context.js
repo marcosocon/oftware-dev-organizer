@@ -35,7 +35,7 @@ class MyProvider extends React.Component {
 				assignee: 'Brad Pitt'
 			}, {
 				id: 2,
-				name: 'Mockr LLC',
+				name: 'Optt LLC',
 				activeSince: '06/29/2016',
 				description: 'Some sample description',
 				assignee: 'Morgan Freeman'
