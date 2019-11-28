@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Table, TableHead, TableRow, TableCell, TableBody, Button, Modal, Input, Radio, Paper } from '@material-ui/core';
+import { Table, TableHead, TableRow, TableCell, TableBody, Button, Paper } from '@material-ui/core';
 import AddEditTaskModal from './AddEditTaskModal';
 
 import {MyContext} from './../Context';
