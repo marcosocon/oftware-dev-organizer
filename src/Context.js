@@ -9,23 +9,38 @@ class MyProvider extends React.Component {
 			this.setState({tasks: [...this.state.tasks, task]})
 		},
 		tasks: [{
-			name: 'Fix Header',
+			id: 1,
+			name: 'Task',
 			projectId: 1,
-			priority: 0,
+			assigneeId: 1,
 			dueDate: true,
-			dueOn: moment().add('days', 1)
+			priority: 0,
+			dueOn: moment()
 		}, {
-			name: 'Create new login process',
-			projectId: 1,
-			priority: 1,
-			dueDate: false,
-			dueOn: null
-		}, {
-			name: 'Refactor Everything',
+			id: 2,
+			name: 'Task 2',
 			projectId: 3,
-			priority: 0,
+			assigneeId: 2,
 			dueDate: true,
-			dueOn: moment().add('days', 3)
+			priority: 2,
+			dueOn: moment()
+		}],
+		users: [{
+			id: 1,
+			name: 'Marco Gutierrez',
+		}, {
+			id: 2,
+			name: 'Erick Lopez',
+		}],
+		priorities: [{
+			value: 0,
+			label: 'Minor'
+		}, {
+			value: 1,
+			label: 'Normal'
+		}, {
+			value: 2,
+			label: 'Major'
 		}],
 		projects: [{
 				id: 1,
@@ -61,9 +76,40 @@ class MyProvider extends React.Component {
 		]
 	};
 
+	addProject = project => this.setState({projects: [...this.state.projects, project]});
+
+	removeProject = project => {
+		const index = this.state.projects.indexOf(project);
+		if (index > -1) {
+			this.state.projects.splice(index, 1);
+			this.setState({projects: this.state.projects});
+		}
+	}
+
+	addTask = task => this.setState({tasks: [...this.state.tasks, task]});
+
+	removeTask = task => {
+		const index = this.state.tasks.indexOf(task);
+		if (index > -1) {
+			this.state.tasks.splice(index, 1);
+			this.setState({tasks: this.state.tasks});
+		}
+	}
+	
+
 	render() {
+		const projectsFn = {
+			addProject: this.addProject,
+			removeProject: this.removeProject
+		};
+
+		const tasksFn = {
+			addTask: this.addTask,
+			removeTask: this.removeTask
+		};
+
 		return (
-			<MyContext.Provider value={{state: this.state}}>
+			<MyContext.Provider value={{state: this.state, projectsFn, tasksFn}}>
 				{this.props.children}
 			</MyContext.Provider>
 		)

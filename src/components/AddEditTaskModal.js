@@ -19,22 +19,29 @@ import moment from 'moment';
 
 class AddEditTaskModal extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			taskName: '',
-			taskProjectId: '',
-			dueDate: moment()
+	state = {
+		task: {
+			name: '',
+			projectId: '',
+			priority: 0,
+			assigneeId: 1,
+			dueDate: true,
+			dueOn: moment()
 		}
 	}
-	handleClose = () => {
-		this.props.onClose();
-	};
+
+	handleClose = () => this.props.onClose();
+
+	handleSave = () => {
+		this.context.tasksFn.addTask(this.state.task);
+		this.handleClose();
+	}
 
 	render() {
 		return (
 			<MyContext.Consumer>
 				{(context) => {
+					this.context = context;
 					const { projects } = context.state;
 					return (
 						<Dialog
@@ -43,18 +50,18 @@ class AddEditTaskModal extends React.Component {
 							<DialogTitle>Add / Edit Task</DialogTitle>
 							<TextField
 								label="Task Name"
-								onChange={(e) => this.setState({taskName: e.target.value})}
+								onChange={e => this.setState({task: {...this.state.task, name: e.target.value}})}
 								value={this.state.taskName}/>
 							<Select
 								value={this.state.taskProjectId}
-								onChange={(e) => this.setState({taskProjectId: e.target.value})}>
+								onChange={e => this.setState({task: {...this.state.task, projectId: e.target.value}})}>
 								{projects.map((proj) => <MenuItem value={proj.id}>{proj.name}</MenuItem>)}
 							</Select>
 							<MuiPickersUtilsProvider utils={MomentUtils}>
 								<KeyboardDatePicker
 									format="DD/MM/YYYY"
 									value={this.state.dueDate}
-									onChange={(date => this.setState({dueDate: moment(date)}))}	
+									onChange={date => this.setState({task: {...this.state.task, dueOn: date}})}
 									label="Dues on"/>
 							</MuiPickersUtilsProvider>
 							<DialogActions>
@@ -62,7 +69,7 @@ class AddEditTaskModal extends React.Component {
 									Cancel
 								</Button>
 								<Button
-									onClick={()=>console.log(this.state)}
+									onClick={this.handleSave}
 									autoFocus>
 									Save
 								</Button>

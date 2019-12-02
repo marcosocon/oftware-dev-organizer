@@ -17,6 +17,7 @@ const Projects = () => {
 	return (
 		<MyContext.Consumer>
 			{(context) => {
+				const {projectsFn} = context;
 				const {projects} = context.state;
 				return (
 					<Grid container style={styles.projectSectionWrapper}>
@@ -30,8 +31,7 @@ const Projects = () => {
 									</CardContent>
 									<CardActions>
 										<Button size="small"><Icon>edit</Icon></Button>
-										<Button size="small"><Icon>delete</Icon></Button>
-										<Button size="small"><Icon>add</Icon></Button>
+										<Button size="small" onClick={() => projectsFn.removeProject(proj)}><Icon>delete</Icon></Button>
 									</CardActions>
 								</Card>)
 							)}
@@ -39,7 +39,6 @@ const Projects = () => {
 				)
 			}}
 		</MyContext.Consumer>
-
 	);
 };
 
